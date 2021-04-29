@@ -5,11 +5,14 @@
 https://docs.microsoft.com/ja-jp/cli/azure/install-azure-cli
 1. bicep install
 https://github.com/Azure/bicep/blob/main/docs/installing.md#windows-installer
+4. bicep install (for Powershell)</br>
+[Setup your Bicep development environment](https://github.com/Azure/bicep/blob/main/docs/installing.md#manual-with-powershell)
 1. Edit parameter File
 - azuredeploy.parameters.dev.json</br>
   - require</br>
   xxx.xxx.xxx.xxx -> Your IP Address.</br>
   xxx(sqlAdministratorLoginPassword)(At least 12 characters (uppercase, lowercase, and numbers)) </br>
+  xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx -> Your ObjectId of Azure AD
 ```
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
@@ -49,13 +52,21 @@ https://github.com/Azure/bicep/blob/main/docs/installing.md#windows-installer
           "value": "Japanese_CS_AS_KS_WS"
         },
         "userObjectId":{
-          "value": "6af89094-81f2-4c7c-a860-e9aac1767047"
+          "value": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
         }
     }
 }
-
 ```
-
+### (Option)
+#### If you use powershell(or pwsh)
+1. Install Module Az or Update Module Az  (Az Version >= 5.8.0)
+```
+ Install-Module Az
+```
+or
+```
+Update-Module Az
+```
 ## Usage
 ### STEP 1
 1. Execute PowerShell Prompt
@@ -65,8 +76,8 @@ https://github.com/Azure/bicep/blob/main/docs/installing.md#windows-installer
 set-variable -name TENANT_ID "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" -option constant
 set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" -option constant
 set-variable -name BICEP_FILE "main.bicep" -option constant
-set-variable -name PARAMETER_FILE "azuredeploy.parameters.dev.json" -option constant
 
+$parameterFile = "azuredeploy.parameters.dev.bicep"
 $resourceGroupName = "xxxxx"
 $location = "xxxxx"
 ```
@@ -107,6 +118,6 @@ New-AzResourceGroupDeployment `
   -Name devenvironment `
   -ResourceGroupName ${resourceGroupName} `
   -TemplateFile ${BICEP_FILE} `
-  -TemplateParameterFile ${PARAMETER_FILE} `
+  -TemplateParameterFile ${parameterFile} `
   -Verbose
 ```
