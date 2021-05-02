@@ -82,28 +82,9 @@ $resourceGroupName = "xxxxx"
 $location = "xxxxx"
 ```
 
-2. Go to STEP2 (Azure CLI or PowerShell)
+2. Go to STEP2 (PowerShell(or CloudShell) or Azure CLI)
 
-
-### STEP 2 (Azure CLI)
-1. Azure Login
-```
-az login -t ${TENANT_ID} --verbose
-```
-2. Set Subscription
-```
-az account set --subscription ${SUBSCRIPTOIN_GUID} --verbose
-```
-3. Create Resource Group  
-```
-az group create --name ${resourceGroupName} --location ${location} --verbose
-```
-4. Deployment Create  
-```
-az deployment group create --resource-group ${resourceGroupName} --template-file ${BICEP_FILE} --parameters ${parameterFile} --verbose
-```
-
-### STEP 2 (PowerShell)
+### STEP 2 (PowerShell or CloudShell)
 1. Azure Login
 ```
 Connect-AzAccount -Tenant ${TENANT_ID} -Subscription ${SUBSCRIPTOIN_GUID}
@@ -120,4 +101,23 @@ New-AzResourceGroupDeployment `
   -TemplateFile ${BICEP_FILE} `
   -TemplateParameterFile ${parameterFile} `
   -Verbose
+```
+
+
+### STEP 2 (Azure CLI (Local Desktop))
+1. Azure Login
+```
+az login -t ${TENANT_ID} --verbose
+```
+2. Set Subscription
+```
+az account set --subscription ${SUBSCRIPTOIN_GUID} --verbose
+```
+3. Create Resource Group  
+```
+az group create --name ${resourceGroupName} --location ${location} --verbose
+```
+4. Deployment Create  
+```
+az deployment group create --resource-group ${resourceGroupName} --template-file ${BICEP_FILE} --parameters ${parameterFile} --verbose
 ```
