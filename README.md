@@ -100,7 +100,7 @@ az group create --name ${resourceGroupName} --location ${location} --verbose
 ```
 4. Deployment Create  
 ```
-az deployment group create --resource-group ${resourceGroupName} --template-file ${BICEP_FILE} --parameters ${PARAMETER_FILE} --verbose
+az deployment group create --resource-group ${resourceGroupName} --template-file ${BICEP_FILE} --parameters ${parameterFile} --verbose
 ```
 
 ### STEP 2 (PowerShell)
