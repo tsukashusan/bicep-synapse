@@ -73,6 +73,7 @@ Update-Module Az
 1. Set Parameter(x)
 
 ```
+Write-Host "hello world"
 set-variable -name TENANT_ID "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" -option constant
 set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" -option constant
 set-variable -name BICEP_FILE "main.bicep" -option constant
@@ -82,9 +83,8 @@ $resourceGroupName = "xxxxx"
 $location = "xxxxx"
 ```
 
-2. Go to STEP2 (PowerShell(or CloudShell) or Azure CLI)
-
-### STEP 2 (PowerShell or CloudShell)
+2. Go to STEP2 (Azure CLI or PowerShell)
+### STEP 2 (PowerShell)
 1. Azure Login
 ```
 Connect-AzAccount -Tenant ${TENANT_ID} -Subscription ${SUBSCRIPTOIN_GUID}
@@ -103,8 +103,7 @@ New-AzResourceGroupDeployment `
   -Verbose
 ```
 
-
-### STEP 2 (Azure CLI (Local Desktop))
+### STEP 2 (Azure CLI)
 1. Azure Login
 ```
 az login -t ${TENANT_ID} --verbose
