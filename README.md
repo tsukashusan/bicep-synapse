@@ -78,7 +78,7 @@ set-variable -name TENANT_ID "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" -option cons
 set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" -option constant
 set-variable -name BICEP_FILE "main.bicep" -option constant
 
-$parameterFile = "azuredeploy.parameters.dev.bicep"
+$parameterFile = "azuredeploy.parameters.dev.json"
 $resourceGroupName = "xxxxx"
 $location = "xxxxx"
 ```
