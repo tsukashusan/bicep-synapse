@@ -1,0 +1,4 @@
+mkdir -p handson/<今日の日付(yyyyMMdd)>>cd handson/<今日の日付(yyyyMMdd)>
+git config --global https.proxy http://[proxy]:[port]
+git config --global http.proxy http://[proxy]:[port]
+git clone https://github.com/tsukashusan/bicep-synapse.git
