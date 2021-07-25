@@ -34,14 +34,14 @@ resource datalakegen2 'Microsoft.Storage/storageAccounts@2021-02-01' = {
 }
 
 resource blob 'Microsoft.Storage/storageAccounts/blobServices@2021-02-01' = {
-  name:  concat(datalakegen2.name, '/default')
+  name:  '${datalakegen2.name}/default'
   dependsOn:[
     datalakegen2
   ]
 }
 
 resource containera 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-02-01' = {
-  name: concat(datalakegen2.name, '/default/', defaultDataLakeStorageFilesystemName)
+  name: '${datalakegen2.name}/default/${defaultDataLakeStorageFilesystemName}'
   properties: {
     publicAccess: 'None'
   }
