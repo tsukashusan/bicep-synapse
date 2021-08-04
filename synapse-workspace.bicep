@@ -95,6 +95,16 @@ resource userroleassing 'Microsoft.Authorization/roleAssignments@2020-04-01-prev
   ]
 }
 
+resource manageid4Pipeline 'Microsoft.Synapse/workspaces/managedIdentitySqlControlSettings@2021-05-01' = {
+  name: 'default'
+  properties: {
+    grantSqlControlToManagedIdentity: {
+      desiredState:'Enabled'
+    }
+  }
+  parent:synapse
+}
+
 resource sqlpool 'Microsoft.Synapse/workspaces/sqlPools@2021-03-01' = {
   name: sqlpoolName
   location: location
