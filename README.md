@@ -120,4 +120,3 @@ az group create --name ${resourceGroupName} --location ${location} --verbose
 ```
 az deployment group create --resource-group ${resourceGroupName} --template-file ${BICEP_FILE} --parameters ${parameterFile} --verbose
 ```
-yut
