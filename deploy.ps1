@@ -38,7 +38,7 @@ $sas = New-AzStorageContainerSASToken -Context $ctx `
 -Permission rw `
 -ExpiryTime (Get-Date).AddDays(1.0)
 
-$sasurl = ${ctx}.BlobEndPoint + $sas
+$sasurl = ${ctx}.BlobEndPoint + "dl2" + ${sas}
 #2.使った sample.zip のダウンロード
 invoke-webrequest -uri ${SAMPLE_SOURCE} -outfile sample.zip
 
@@ -48,7 +48,7 @@ Expand-Archive -LiteralPath .\sample.zip -DestinationPath sample
 
 
 #4. 1で作成したsas token と共に、az copyで 作成されたストレージアカウントのコンテナdl2 へアップロード
-azcopy copy "./sample" --recursive=true ${sasurl}
+azcopy copy "./sample" --recursive=true "${sasurl}" 
 
 Remove-Item -Path sample.zip -Force
 Remove-Item -Path .\sample\* -Recurse
@@ -59,5 +59,3 @@ Remove-Item -Path .\sample\* -Recurse
 #6-3. 6-1, 6-2の結果をcreate_externa_table.sqlとして、上書き
 #7.Set-AzSynapseSqlScriptをつかって、リポジトリのSQLファイルを一式(*.sql)アップロード
 #8. transform-csv.ipynbの_storage_account_をストレージアカウント名で置換
---example--
-from pyspark.sql import SparkSession
