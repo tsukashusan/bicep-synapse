@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "ipaddress": {
-            "value": "xxx.xxx.xxx.xxx"
+            "value": "172.70.122.210"
         },
         "sqlAdministratorLogin": {
           "value" : "adminuser"
         },
         "sqlAdministratorLoginPassword": {
-          "value": "xxx"
+          "value": "tWI7OlrLD4pn"
         },
         "storageAccountType":{
           "value": "Standard_LRS"
@@ -36,7 +36,7 @@
           "value": "Japanese_CS_AS_KS_WS"
         },
         "userObjectId":{
-          "value": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+          "value": "488fe9cd-13db-4b9e-809e-9e3855cf779b"
         }
     }
 }
