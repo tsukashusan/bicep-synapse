@@ -98,7 +98,7 @@ $UTF8woBOM = New-Object "System.Text.UTF8Encoding" -ArgumentList @($false)
 [System.IO.File]::WriteAllLines((Join-Path $PWD $outFilePath), @($contents), $UTF8woBOM)
 
 #7.Set-AzSynapseSqlScriptをつかって、リポジトリのSQLファイルを一式(*.sql)アップロード
-Set-AzSynapseSqlScript
+Set-AzSynapseSqlScript　-WorkspaceName-WorkspaceName $ws.Name -Name "create_externa_table" -DefinitionFile ".\after_create_externa_table.sql"
 
 #8. transform-csv.ipynbの_storage_account_をストレージアカウント名で置換
 
