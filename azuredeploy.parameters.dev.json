@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "ipaddress": {
-            "value": "150.249.161.109"
+            "value": "xxxxxxxxxxxxxxxxxxxxx"
         },
         "sqlAdministratorLogin": {
           "value" : "adminuser"

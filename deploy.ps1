@@ -24,14 +24,14 @@ function ContentsReplace
 
 
 Write-Host "hello world"
-set-variable -name TENANT_ID "72f988bf-86f1-41af-91ab-2d7cd011db47" -option constant
-set-variable -name SUBSCRIPTOIN_GUID "802780be-84b5-4614-b412-69fb4520412a" -option constant
+set-variable -name TENANT_ID "xxxxxxxxxxxxxxxx" -option constant
+set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxxxxxxxxxxx" -option constant
 set-variable -name BICEP_FILE "main.bicep" -option constant
 set-variable -name CONTAINER_NAME "dl2" -option constant
 set-variable -name SAMPLE_SOURCE "https://miscstrage.blob.core.windows.net/box/sample.zip?sv=2020-04-08&st=2021-07-29T22%3A21%3A54Z&se=2022-06-30T14%3A59%3A00Z&sr=b&sp=r&sig=TzZxkOsM2BmLH1ImbFy%2FWdWvTNOvU6MDpgEtubEAQ4w%3D"
 
 $parameterFile = "azuredeploy.parameters.dev.json"
-$resourceGroupName = "rg20211111-1"
+$resourceGroupName = "rgxxxx"
 $location = "japaneast"
 
 Connect-AzAccount -Tenant ${TENANT_ID} -Subscription ${SUBSCRIPTOIN_GUID}
@@ -99,3 +99,6 @@ ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceString
 
 #9.Set-AzSynapseNotebookをつかって、リポジトリのipynbファイルを一式(*.ipynb)アップロード
 Set-AzSynapseNotebook -WorkspaceName $ws.Name -Name "transform-csv" -DefinitionFile ".\after_transform-csv.ipynb"
+
+#10.ctasのアップロード
+Set-AzSynapseSqlScript　-WorkspaceName $ws.Name -Name "ctas" -DefinitionFile ".\ctas.sql"
