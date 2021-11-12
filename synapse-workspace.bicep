@@ -28,8 +28,7 @@ resource datalakegen2 'Microsoft.Storage/storageAccounts@2021-02-01' = {
     isHnsEnabled: true
   }
   sku: {
-    name: storageAccountType  
-    tier: 'Standard'
+    name: storageAccountType
   }
 }
 
