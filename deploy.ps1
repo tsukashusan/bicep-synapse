@@ -20,10 +20,6 @@ function ContentsReplace
     return $true
 }
 
-
-
-
-Write-Host "hello world"
 set-variable -name TENANT_ID "xxxxxxxxxxxxxxxx" -option constant
 set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxxxxxxxxxxx" -option constant
 set-variable -name BICEP_FILE "main.bicep" -option constant
@@ -39,11 +35,11 @@ Connect-AzAccount -Tenant ${TENANT_ID} -Subscription ${SUBSCRIPTOIN_GUID}
 New-AzResourceGroup -Name ${resourceGroupName} -Location ${location} -Verbose
 
 New-AzResourceGroupDeployment `
-  -Name devenvironment `
-  -ResourceGroupName ${resourceGroupName} `
-  -TemplateFile ${BICEP_FILE} `
-  -TemplateParameterFile ${parameterFile} `
-  -Verbose
+    -Name devenvironment `
+    -ResourceGroupName ${resourceGroupName} `
+    -TemplateFile ${BICEP_FILE} `
+    -TemplateParameterFile ${parameterFile} `
+    -Verbose
 
 #1.作成されたストレージアカウントのSAS TOKEN を取得
 $storage = Get-AzStorageAccount `
@@ -54,9 +50,9 @@ $ctx = New-AzStorageContext `
     -UseConnectedAccount
 
 $sas = New-AzStorageContainerSASToken -Context $ctx `
--Name ${CONTAINER_NAME} `
--Permission rw `
--ExpiryTime (Get-Date).AddDays(1.0)
+    -Name ${CONTAINER_NAME} `
+    -Permission rw `
+    -ExpiryTime (Get-Date).AddDays(1.0)
 
 $sasurl = ${ctx}.BlobEndPoint + "dl2" + ${sas}
 #2.使った sample.zip のダウンロード
@@ -65,7 +61,6 @@ invoke-webrequest -uri ${SAMPLE_SOURCE} -outfile sample.zip
 #3. zip の解凍(コマンド)
 #unzip -d sample sample.zip
 Expand-Archive -LiteralPath .\sample.zip -DestinationPath sample
-
 
 #4. 1で作成したsas token と共に、az copyで 作成されたストレージアカウントのコンテナdl2 へアップロード
 azcopy copy "./sample" --recursive=true "${sasurl}" 
@@ -82,7 +77,6 @@ $replaceStringsDic = [System.Collections.Generic.Dictionary[String, String]]::ne
 $replaceStringsDic.Add("<storage account name>", $storage.StorageAccountName)
 $replaceStringsDic.Add("<storage account key>", $saKey)
 ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceStringsDic
-
 
 #7.Set-AzSynapseSqlScriptをつかって、リポジトリのSQLファイルを一式(*.sql)アップロード
 $ws = Get-AzSynapseWorkspace -ResourceGroupName $resourceGroupName
