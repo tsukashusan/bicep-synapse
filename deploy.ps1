@@ -20,6 +20,8 @@ function ContentsReplace
     return $true
 }
 
+
+# set variables
 set-variable -name TENANT_ID "xxxxxxxxxxxxxxxx" -option constant
 set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxxxxxxxxxxx" -option constant
 set-variable -name BICEP_FILE "main.bicep" -option constant
@@ -30,6 +32,12 @@ $parameterFile = "azuredeploy.parameters.dev.json"
 $resourceGroupName = "rgxxxx"
 $location = "japaneast"
 
+
+# install required packages
+Install-Module -Name Az.Synapse
+
+
+# initialize envirionment
 Connect-AzAccount -Tenant ${TENANT_ID} -Subscription ${SUBSCRIPTOIN_GUID}
 
 New-AzResourceGroup -Name ${resourceGroupName} -Location ${location} -Verbose
