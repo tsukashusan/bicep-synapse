@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ipaddress": {
+            "value": "xxx.xxx.xxx.xxx"
+        },
+        "sqlAdministratorLogin": {
+          "value" : "adminuser"
+        },
+        "sqlAdministratorLoginPassword": {
+          "value": "xxx"
+        },
+        "storageAccountType":{
+          "value": "Standard_LRS"
+        },
+        "sqlpoolName":{
+          "value": "販売管理"
+        },
+        "bigDataPoolName": {
+          "value": "etlexecuter"
+        },
+        "nodeSize":{
+          "value": "Small"
+        },
+        "sparkPoolMinNodeCount":{
+            "value": 3
+        },
+        "sparkPoolMaxNodeCount":{
+          "value": 3
+        },
+        "defaultDataLakeStorageFilesystemName":{
+          "value": "dl2"
+        },
+        "collation":{
+          "value": "Japanese_CS_AS_KS_WS"
+        },
+        "userObjectId":{
+          "value": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+        }
+    }
+}
