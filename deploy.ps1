@@ -20,7 +20,6 @@ function ContentsReplace
     return $true
 }
 
-# set variables
 set-variable -name TENANT_ID "xxxxxxxxxxxxxxxx" -option constant
 set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxxxxxxxxxxx" -option constant
 set-variable -name BICEP_FILE "main.bicep" -option constant
@@ -81,7 +80,7 @@ ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceString
 
 #7.Set-AzSynapseSqlScriptをつかって、リポジトリのSQLファイルを一式(*.sql)アップロード
 $ws = Get-AzSynapseWorkspace -ResourceGroupName $resourceGroupName
-Set-AzSynapseSqlScript　-WorkspaceName $ws.Name -Name "create_externa_table" -DefinitionFile ".\after_create_externa_table.sql"
+Set-AzSynapseSqlScript -WorkspaceName $ws.Name -Name "create_externa_table" -DefinitionFile ".\after_create_externa_table.sql"
 
 #8. transform-csv.ipynbの_storage_account_をストレージアカウント名で置換
 $linked_service = Get-AzSynapseLinkedService -WorkspaceName $ws.Name
