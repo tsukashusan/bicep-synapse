@@ -20,7 +20,6 @@ function ContentsReplace
     return $true
 }
 
-
 # set variables
 set-variable -name TENANT_ID "xxxxxxxxxxxxxxxx" -option constant
 set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxxxxxxxxxxx" -option constant
@@ -32,12 +31,6 @@ $parameterFile = "azuredeploy.parameters.dev.json"
 $resourceGroupName = "rgxxxx"
 $location = "japaneast"
 
-
-# install required packages
-Install-Module -Name Az.Synapse
-
-
-# initialize envirionment
 Connect-AzAccount -Tenant ${TENANT_ID} -Subscription ${SUBSCRIPTOIN_GUID}
 
 New-AzResourceGroup -Name ${resourceGroupName} -Location ${location} -Verbose
@@ -103,4 +96,4 @@ ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceString
 Set-AzSynapseNotebook -WorkspaceName $ws.Name -Name "transform-csv" -DefinitionFile ".\after_transform-csv.ipynb"
 
 #10.ctasのアップロード
-Set-AzSynapseSqlScript　-WorkspaceName $ws.Name -Name "ctas" -DefinitionFile ".\ctas.sql"
+Set-AzSynapseSqlScript -WorkspaceName $ws.Name -Name "ctas" -DefinitionFile ".\ctas.sql"
