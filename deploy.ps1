@@ -20,6 +20,7 @@ function ContentsReplace
     return $true
 }
 
+# set variables
 set-variable -name TENANT_ID "xxxxxxxxxxxxxxxx" -option constant
 set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxxxxxxxxxxx" -option constant
 set-variable -name BICEP_FILE "main.bicep" -option constant
