@@ -30,7 +30,7 @@ $parameterFile = "azuredeploy.parameters.dev.json"
 $resourceGroupName = "rgxxxx"
 $location = "japaneast"
 
-Connect-AzAccount -Tenant ${TENANT_ID} -Subscription ${SUBSCRIPTOIN_GUID}
+Connect-AzAccount -Tenant ${TENANT_ID} -Subscription ${SUBSCRIPTOIN_GUID} -UseDeviceAuthentication
 
 New-AzResourceGroup -Name ${resourceGroupName} -Location ${location} -Verbose
 
