@@ -5,7 +5,7 @@
 https://docs.microsoft.com/ja-jp/cli/azure/install-azure-cli
 1. bicep install
 https://github.com/Azure/bicep/blob/main/docs/installing.md#windows-installer
-1. Install Azure Synapse Powershell Module
+1. Install Azure Synapse Powershell Module</br>
 Install-Module -Name Az.Synapse
 4. bicep install (for Powershell)</br>
 [Setup your Bicep development environment](https://github.com/Azure/bicep/blob/main/docs/installing.md#manual-with-powershell)
