@@ -82,17 +82,18 @@ ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceString
 $ws = Get-AzSynapseWorkspace -ResourceGroupName $resourceGroupName
 Set-AzSynapseSqlScript -WorkspaceName $ws.Name -Name "create_externa_table" -DefinitionFile ".\after_create_externa_table.sql"
 
-#8. transform-csv.ipynbの_storage_account_をストレージアカウント名で置換
+#8. *.ipynbの_storage_account_をストレージアカウント名で置換
 $linked_service = Get-AzSynapseLinkedService -WorkspaceName $ws.Name
 
-$inputFilePath = "transform-csv.ipynb"
 $replaceStringsDic = [System.Collections.Generic.Dictionary[String, String]]::new()
 $replaceStringsDic.Add("_storage_account_", $storage.StorageAccountName)
 $replaceStringsDic.Add("_linked_service_name_", $linked_service.Name[0])
-ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceStringsDic
+ContentsReplace -taregetFileName "transform-csv.ipynb" -targetReplaceDic $replaceStringsDic
+ContentsReplace -taregetFileName "generate_dummies.ipynb" -targetReplaceDic $replaceStringsDic
 
 #9.Set-AzSynapseNotebookをつかって、リポジトリのipynbファイルを一式(*.ipynb)アップロード
 Set-AzSynapseNotebook -WorkspaceName $ws.Name -Name "transform-csv" -DefinitionFile ".\after_transform-csv.ipynb"
+Set-AzSynapseNotebook -WorkspaceName $ws.Name -Name "generate_dummies.ipynb" -DefinitionFile ".\after_generate_dummies.ipynb"
 
 #10.ctasのアップロード
 Set-AzSynapseSqlScript -WorkspaceName $ws.Name -Name "ctas" -DefinitionFile ".\ctas.sql"
