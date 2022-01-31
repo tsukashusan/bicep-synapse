@@ -71,8 +71,8 @@ Remove-Item -Path .\sample\* -Recurse
 #5.作成されたストレージアカウントのアカウントキーを取得
 $saKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $storage.StorageAccountName).Value[0]
 
-#6-1. create_externa_table.sqlの<storage account name>を置換
-$inputFilePath = "create_externa_table.sql"
+#6-1. create_external_table.sqlの<storage account name>を置換
+$inputFilePath = "create_external_table.sql"
 $replaceStringsDic = [System.Collections.Generic.Dictionary[String, String]]::new()
 $replaceStringsDic.Add("<storage account name>", $storage.StorageAccountName)
 $replaceStringsDic.Add("<storage account key>", $saKey)
@@ -80,7 +80,7 @@ ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceString
 
 #7.Set-AzSynapseSqlScriptをつかって、リポジトリのSQLファイルを一式(*.sql)アップロード
 $ws = Get-AzSynapseWorkspace -ResourceGroupName $resourceGroupName
-Set-AzSynapseSqlScript -WorkspaceName $ws.Name -Name "create_externa_table" -DefinitionFile ".\after_create_externa_table.sql"
+Set-AzSynapseSqlScript -WorkspaceName $ws.Name -Name "create_external_table" -DefinitionFile ".\after_create_external_table.sql"
 
 #8. *.ipynbの_storage_account_をストレージアカウント名で置換
 $linked_service = Get-AzSynapseLinkedService -WorkspaceName $ws.Name
