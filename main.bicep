@@ -16,8 +16,8 @@ param sparkPoolMaxNodeCount int
 param defaultDataLakeStorageFilesystemName string
 param collation string
 param userObjectId string
-var location = resourceGroup().location
-
+param dataLakeUrlFormat string
+param location string
 
 //Storage account for deployment scripts
 module synapsedeploy 'synapse-workspace.bicep' = {
@@ -39,6 +39,8 @@ module synapsedeploy 'synapse-workspace.bicep' = {
     startIpaddress: ipaddress
     endIpAddress: ipaddress
     userObjectId: userObjectId
+    dataLakeUrlFormat: dataLakeUrlFormat
   }
 }
 
+output resourceSuffix string = randomstring

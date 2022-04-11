@@ -37,6 +37,9 @@
         },
         "userObjectId":{
           "value": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+        },
+        "dataLakeUrlFormat":{
+          "value": "https://{0}.dfs.core.windows.net"
         }
     }
 }

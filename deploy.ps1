@@ -34,19 +34,21 @@ Connect-AzAccount -Tenant ${TENANT_ID} -Subscription ${SUBSCRIPTOIN_GUID} -UseDe
 
 New-AzResourceGroup -Name ${resourceGroupName} -Location ${location} -Verbose
 
-New-AzResourceGroupDeployment `
+$deployment = `
+(New-AzResourceGroupDeployment `
     -Name devenvironment `
     -ResourceGroupName ${resourceGroupName} `
     -TemplateFile ${BICEP_FILE} `
     -TemplateParameterFile ${parameterFile} `
-    -Verbose
-
+    -location $location `
+    -Verbose)
+$resourceSuffix = $deployment.Outputs.resourceSuffix.Value
+$storageAccountName = "storage${resourceSuffix}"
+$synapesName = "synapse${resourceSuffix}"
 #1.作成されたストレージアカウントのSAS TOKEN を取得
-$storage = Get-AzStorageAccount `
-    -ResourceGroupName ${resourceGroupName}
-    
+  
 $ctx = New-AzStorageContext `
-    -StorageAccountName $storage.StorageAccountName `
+    -StorageAccountName $storageAccountName `
     -UseConnectedAccount
 
 $sas = New-AzStorageContainerSASToken -Context $ctx `
@@ -69,7 +71,7 @@ Remove-Item -Path sample.zip -Force
 Remove-Item -Path .\sample\* -Recurse
 
 #5.作成されたストレージアカウントのアカウントキーを取得
-$saKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $storage.StorageAccountName).Value[0]
+$saKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $storageAccountName).Value[0]
 
 #6-1. create_external_table.sqlの<storage account name>を置換
 $inputFilePath = "create_external_table.sql"
@@ -79,21 +81,20 @@ $replaceStringsDic.Add("<storage account key>", $saKey)
 ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceStringsDic
 
 #7.Set-AzSynapseSqlScriptをつかって、リポジトリのSQLファイルを一式(*.sql)アップロード
-$ws = Get-AzSynapseWorkspace -ResourceGroupName $resourceGroupName
-Set-AzSynapseSqlScript -WorkspaceName $ws.Name -Name "create_external_table" -DefinitionFile ".\after_create_external_table.sql"
+Set-AzSynapseSqlScript -WorkspaceName $synapesName -Name "create_external_table" -DefinitionFile ".\after_create_external_table.sql"
 
 #8. *.ipynbの_storage_account_をストレージアカウント名で置換
-$linked_service = Get-AzSynapseLinkedService -WorkspaceName $ws.Name
+$linked_service = Get-AzSynapseLinkedService -WorkspaceName $synapesName
 
 $replaceStringsDic = [System.Collections.Generic.Dictionary[String, String]]::new()
-$replaceStringsDic.Add("_storage_account_", $storage.StorageAccountName)
+$replaceStringsDic.Add("_storage_account_", $storageAccountName)
 $replaceStringsDic.Add("_linked_service_name_", $linked_service.Name[0])
 ContentsReplace -taregetFileName "transform-csv.ipynb" -targetReplaceDic $replaceStringsDic
 ContentsReplace -taregetFileName "generate_dummies.ipynb" -targetReplaceDic $replaceStringsDic
 
 #9.Set-AzSynapseNotebookをつかって、リポジトリのipynbファイルを一式(*.ipynb)アップロード
-Set-AzSynapseNotebook -WorkspaceName $ws.Name -Name "transform-csv" -DefinitionFile ".\after_transform-csv.ipynb"
-Set-AzSynapseNotebook -WorkspaceName $ws.Name -Name "generate_dummies.ipynb" -DefinitionFile ".\after_generate_dummies.ipynb"
+Set-AzSynapseNotebook -WorkspaceName $synapesName -Name "transform-csv" -DefinitionFile ".\after_transform-csv.ipynb"
+Set-AzSynapseNotebook -WorkspaceName $synapesName -Name "generate_dummies.ipynb" -DefinitionFile ".\after_generate_dummies.ipynb"
 
 #10.ctasのアップロード
-Set-AzSynapseSqlScript -WorkspaceName $ws.Name -Name "ctas" -DefinitionFile ".\ctas.sql"
+Set-AzSynapseSqlScript -WorkspaceName $synapesName -Name "ctas" -DefinitionFile ".\ctas.sql"

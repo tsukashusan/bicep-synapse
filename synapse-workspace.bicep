@@ -14,6 +14,7 @@ param collation string
 param startIpaddress string
 param endIpAddress string
 param userObjectId string
+param dataLakeUrlFormat string
 
 
 var storageBlobDataContributorRoleID = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
@@ -34,9 +35,6 @@ resource datalakegen2 'Microsoft.Storage/storageAccounts@2021-02-01' = {
 
 resource blob 'Microsoft.Storage/storageAccounts/blobServices@2021-02-01' = {
   name:  '${datalakegen2.name}/default'
-  dependsOn:[
-    datalakegen2
-  ]
 }
 
 resource containera 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-02-01' = {
@@ -56,16 +54,13 @@ resource synapse 'Microsoft.Synapse/workspaces@2021-03-01' = {
     sqlAdministratorLogin: sqlAdministratorLogin
     sqlAdministratorLoginPassword: sqlAdministratorLoginPassword
     defaultDataLakeStorage:{
-      accountUrl: 'https://${datalakegen2.name}.dfs.core.windows.net'
+      accountUrl: format(dataLakeUrlFormat, datalakegen2.name)
       filesystem: defaultDataLakeStorageFilesystemName
     }
   }
   identity:{
     type:'SystemAssigned'
   }
-  dependsOn:[
-    datalakegen2
-  ]
 }
 
 resource synapseroleassing 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
@@ -76,9 +71,6 @@ resource synapseroleassing 'Microsoft.Authorization/roleAssignments@2020-04-01-p
     principalType: 'ServicePrincipal'
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', storageBlobDataContributorRoleID)
   }
-  dependsOn:[
-    synapse
-  ]
 }
 
 resource userroleassing 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
@@ -89,9 +81,6 @@ resource userroleassing 'Microsoft.Authorization/roleAssignments@2020-04-01-prev
     principalType: 'User'
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', storageBlobDataContributorRoleID)
   }
-  dependsOn:[
-    datalakegen2
-  ]
 }
 
 resource manageid4Pipeline 'Microsoft.Synapse/workspaces/managedIdentitySqlControlSettings@2021-05-01' = {
@@ -154,7 +143,3 @@ resource symbolicname 'Microsoft.Synapse/workspaces/firewallRules@2021-03-01' = 
   }
   parent: synapse
 }
-
-
-
-
