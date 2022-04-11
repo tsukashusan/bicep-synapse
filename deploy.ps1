@@ -84,11 +84,11 @@ ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceString
 Set-AzSynapseSqlScript -WorkspaceName $synapesName -Name "create_external_table" -DefinitionFile ".\after_create_external_table.sql"
 
 #8. *.ipynbの_storage_account_をストレージアカウント名で置換
-$linked_service = Get-AzSynapseLinkedService -WorkspaceName $synapesName
+$linkedServiceName = ((Get-AzSynapseLinkedService -WorkspaceName $synapesName).Where({$PSItem.Name.Contains("WorkspaceDefaultStorage")})).Name
 
 $replaceStringsDic = [System.Collections.Generic.Dictionary[String, String]]::new()
 $replaceStringsDic.Add("_storage_account_", $storageAccountName)
-$replaceStringsDic.Add("_linked_service_name_", $linked_service.Name[0])
+$replaceStringsDic.Add("_linked_service_name_", $linkedServiceName)
 ContentsReplace -taregetFileName "transform-csv.ipynb" -targetReplaceDic $replaceStringsDic
 ContentsReplace -taregetFileName "generate_dummies.ipynb" -targetReplaceDic $replaceStringsDic
 
