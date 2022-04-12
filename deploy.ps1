@@ -76,7 +76,7 @@ $saKey = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $s
 #6-1. create_external_table.sqlの<storage account name>を置換
 $inputFilePath = "create_external_table.sql"
 $replaceStringsDic = [System.Collections.Generic.Dictionary[String, String]]::new()
-$replaceStringsDic.Add("<storage account name>", $storage.StorageAccountName)
+$replaceStringsDic.Add("<storage account name>", $storageAccountName)
 $replaceStringsDic.Add("<storage account key>", $saKey)
 ContentsReplace -taregetFileName $inputFilePath -targetReplaceDic $replaceStringsDic
 
