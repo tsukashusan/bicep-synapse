@@ -1,7 +1,7 @@
 //scope
 targetScope = 'resourceGroup'
-
-var randomstring = toLower(replace(uniqueString(subscription().id, resourceGroup().id), '-', ''))
+param utcValue string = utcNow()
+var randomstring = toLower(replace(uniqueString(subscription().id, resourceGroup().id, utcValue), '-', ''))
 param ipaddress string
 var synapseName = 'synapse${randomstring}'
 param sqlAdministratorLogin string

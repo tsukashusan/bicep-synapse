@@ -20,7 +20,7 @@ param dataLakeUrlFormat string
 var storageBlobDataContributorRoleID = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var storageRoleUniqueId = guid(resourceId('Microsoft.Storage/storageAccounts', synapseName), blobName)
 var storageRoleUserUniqueId = guid(resourceId('Microsoft.Storage/storageAccounts', synapseName), userObjectId)
-resource datalakegen2 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+resource datalakegen2 'Microsoft.Storage/storageAccounts@2021-09-01' = {
   name: blobName
   kind: 'StorageV2'
   location: location
@@ -33,11 +33,11 @@ resource datalakegen2 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   }
 }
 
-resource blob 'Microsoft.Storage/storageAccounts/blobServices@2021-02-01' = {
+resource blob 'Microsoft.Storage/storageAccounts/blobServices@2021-09-01' = {
   name:  '${datalakegen2.name}/default'
 }
 
-resource containera 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-02-01' = {
+resource containera 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-09-01' = {
   name: '${datalakegen2.name}/default/${defaultDataLakeStorageFilesystemName}'
   properties: {
     publicAccess: 'None'
@@ -47,7 +47,7 @@ resource containera 'Microsoft.Storage/storageAccounts/blobServices/containers@2
   ]
 } 
 
-resource synapse 'Microsoft.Synapse/workspaces@2021-03-01' = {
+resource synapse 'Microsoft.Synapse/workspaces@2021-06-01' = {
   name: synapseName
   location: location
   properties: {
@@ -63,7 +63,7 @@ resource synapse 'Microsoft.Synapse/workspaces@2021-03-01' = {
   }
 }
 
-resource synapseroleassing 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+resource synapseroleassing 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
   name: storageRoleUniqueId
   scope: datalakegen2
   properties:{
@@ -73,7 +73,7 @@ resource synapseroleassing 'Microsoft.Authorization/roleAssignments@2020-04-01-p
   }
 }
 
-resource userroleassing 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+resource userroleassing 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
   name: storageRoleUserUniqueId
   scope: datalakegen2
   properties:{
@@ -83,7 +83,7 @@ resource userroleassing 'Microsoft.Authorization/roleAssignments@2020-04-01-prev
   }
 }
 
-resource manageid4Pipeline 'Microsoft.Synapse/workspaces/managedIdentitySqlControlSettings@2021-05-01' = {
+resource manageid4Pipeline 'Microsoft.Synapse/workspaces/managedIdentitySqlControlSettings@2021-06-01' = {
   name: 'default'
   properties: {
     grantSqlControlToManagedIdentity: {
@@ -93,7 +93,7 @@ resource manageid4Pipeline 'Microsoft.Synapse/workspaces/managedIdentitySqlContr
   parent:synapse
 }
 
-resource sqlpool 'Microsoft.Synapse/workspaces/sqlPools@2021-03-01' = {
+resource sqlpool 'Microsoft.Synapse/workspaces/sqlPools@2021-06-01' = {
   name: sqlpoolName
   location: location
   parent: synapse
@@ -106,7 +106,7 @@ resource sqlpool 'Microsoft.Synapse/workspaces/sqlPools@2021-03-01' = {
   }
 }
 
-resource sparkpool 'Microsoft.Synapse/workspaces/bigDataPools@2021-03-01' = {
+resource sparkpool 'Microsoft.Synapse/workspaces/bigDataPools@2021-06-01' = {
   name: bigDataPoolName
   location: location
   parent: synapse
@@ -126,7 +126,7 @@ resource sparkpool 'Microsoft.Synapse/workspaces/bigDataPools@2021-03-01' = {
   }
 }
 
-resource allowazure4synapse 'Microsoft.Synapse/workspaces/firewallRules@2021-03-01' = {
+resource allowazure4synapse 'Microsoft.Synapse/workspaces/firewallRules@2021-06-01' = {
   name: 'AllowAllWindowsAzureIps'
   properties: {
     endIpAddress: '0.0.0.0'
@@ -135,7 +135,7 @@ resource allowazure4synapse 'Microsoft.Synapse/workspaces/firewallRules@2021-03-
   parent: synapse
 }
 
-resource symbolicname 'Microsoft.Synapse/workspaces/firewallRules@2021-03-01' = {
+resource symbolicname 'Microsoft.Synapse/workspaces/firewallRules@2021-06-01' = {
   name: 'AllowAccessPoint'
   properties: {
     endIpAddress: endIpAddress

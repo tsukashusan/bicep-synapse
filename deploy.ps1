@@ -24,7 +24,7 @@ set-variable -name TENANT_ID "xxxxxxxxxxxxxxxx" -option constant
 set-variable -name SUBSCRIPTOIN_GUID "xxxxxxxxxxxxxxxxx" -option constant
 set-variable -name BICEP_FILE "main.bicep" -option constant
 set-variable -name CONTAINER_NAME "dl2" -option constant
-set-variable -name SAMPLE_SOURCE "https://miscstrage.blob.core.windows.net/box/sample.zip?sv=2020-04-08&st=2021-07-29T22%3A21%3A54Z&se=2022-06-30T14%3A59%3A00Z&sr=b&sp=r&sig=TzZxkOsM2BmLH1ImbFy%2FWdWvTNOvU6MDpgEtubEAQ4w%3D"
+set-variable -name SAMPLE_SOURCE "https://miscstrage.blob.core.windows.net/box/sample.zip?sv=2020-10-02&st=2022-07-05T10%3A50%3A43Z&se=2033-06-30T10%3A50%3A00Z&sr=b&sp=r&sig=NQAqp8i5LgVkUXyJ8M9%2BUYFKrKV86zj2VG8LBV9f2l8%3D"
 
 $parameterFile = "azuredeploy.parameters.dev.json"
 $resourceGroupName = "rgxxxx"
@@ -42,11 +42,12 @@ $deployment = `
     -TemplateParameterFile ${parameterFile} `
     -location $location `
     -Verbose)
+
 $resourceSuffix = $deployment.Outputs.resourceSuffix.Value
 $storageAccountName = "storage${resourceSuffix}"
 $synapesName = "synapse${resourceSuffix}"
+
 #1.作成されたストレージアカウントのSAS TOKEN を取得
-  
 $ctx = New-AzStorageContext `
     -StorageAccountName $storageAccountName `
     -UseConnectedAccount
