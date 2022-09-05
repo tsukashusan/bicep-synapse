@@ -1,6 +1,7 @@
 param synapseName string
 param location string
 param sqlAdministratorLogin string
+@secure()
 param sqlAdministratorLoginPassword string
 param blobName string
 param storageAccountType string

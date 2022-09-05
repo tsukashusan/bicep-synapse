@@ -5,6 +5,7 @@ var randomstring = toLower(replace(uniqueString(subscription().id, resourceGroup
 param ipaddress string
 var synapseName = 'synapse${randomstring}'
 param sqlAdministratorLogin string
+@secure()
 param sqlAdministratorLoginPassword string
 var blobName = 'storage${randomstring}'
 param storageAccountType string
