@@ -123,7 +123,7 @@ resource sparkpool 'Microsoft.Synapse/workspaces/bigDataPools@2021-06-01' = {
       enabled: true
       delayInMinutes: 15
     }
-    sparkVersion: '3.1'
+    sparkVersion: '3.2'
   }
 }
 
